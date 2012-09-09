@@ -1,3 +1,6 @@
+import os
+import sys
+sys.path.append(os.path.abspath('../..'))
 def get_continents():
 	return [{"code": "AF", "name": "Africa"}, {"code": "AS", "name": "Asia"}, {"code": "EU", "name": "Europe"}, {"code": "NA", "name": "North America"}, {"code": "SA", "name": "South America"}, {"code": "OC", "name": "Oceania"}, {"code": "AN", "name": "Antarctica"}];
 def get_countries(continent_code):

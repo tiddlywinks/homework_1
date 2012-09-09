@@ -1,7 +1,7 @@
 import web
 import app.controllers
 
-Urls = ('/countires/(.*)', 'app.controllers.query_countries.QueryCountries')
+Urls = ('/countries/.*', 'app.controllers.query_countries.QueryCountries')
 
 view = web.template.render('views', globals=globals)
 web.config.debug = True
