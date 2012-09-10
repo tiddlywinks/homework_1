@@ -14,35 +14,36 @@ class QueryCountriesTests(unittest.TestCase):
 	
 	def test_QueryCountriesForEarthquake(self):
 		continents = get_continents()
+		continents = continents[0:1]
 		msg = 'countries in %s with earthquakes: %s'
 		hazards = ['earthquake']
 		for continent in continents:
 			for hazard in hazards:
 				r = self.testApp.get('/countries/?continent=%s&natural_hazard=%s' % (continent['code'], hazard))
-				countries = json.loads(r)
-				print msg % (continent, str(countries))
-				self.assertIsInstance(list)
+				countries = json.loads(r.body)
+				print msg % (continent['code'], str(countries))
 	
 	def test_QueryCountriesForMoreThanNPoliticalParties(self):
 		continents = get_continents()
+		continents = continents[0:1]
 		msg = 'countries in %s with more than %d political parties: %s'
 		for continent in continents:
-			for party_count in range(9, 11):
+			for party_count in range(5, 8):
 				r = self.testApp.get('/countries/?continent=%s&political_party_count_gt_n=%s' % (continent['code'], party_count))
-				countries = json.loads(r)
-				print msg % (continent, party_count, str(r))
-				self.asertIsInstance(list)
+				countries = json.loads(r.body)
+				self.assertIsInstance(countries, list)
+				print msg % (continent['code'], party_count, str(countries))
 
 	def test_QueryCountriesWithColorFlag(self):
-		continents = get_continents()
-		colors = ['blue', 'red']
-		for continent in continents:
-			for color in colors:
-				r = self.testApp.get('/countries/?continent=%s&flag_contains_color=%s' % (continent['code'], color))
-				countries = json.loads(r)
-				self.assertIsInstance(list)
+		colors = ['blue', 'red', 'lavendar']
+		msg = 'countries with %s in flag: %s'
+		for color in colors:
+			r = self.testApp.get('/countries/?continent=NA&flag_contains_color=%s' % color)
+			countries = json.loads(r.body)
+			self.assertIsInstance(countries, list)
+			print msg % (color, str(countries))
 
-	def ignore_QueryCountriesLandlocked(self):
+	def _QueryCountriesLandlocked(self):
 		r = self.testApp.get('/countries/?flag_contains=%s' % color)
 		countries = json.loads(r)
 		self.assertIsInstance(list)

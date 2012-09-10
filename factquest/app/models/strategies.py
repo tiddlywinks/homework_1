@@ -7,7 +7,7 @@ import re
 
 # gets the data associated with a category; category is distinct text in category header
 def category(html, category):
-	soup = BeautifulSoup(html)
+	soup = BeautifulSoup(html, 'html5lib')
 	anchor = soup.find("a", { "alt" : re.compile(".*%s.*" % category, re.IGNORECASE) })
 	if not anchor:
 		return None

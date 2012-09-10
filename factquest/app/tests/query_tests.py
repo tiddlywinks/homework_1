@@ -6,14 +6,22 @@ from paste.fixture import TestApp
 from application import app
 
 class QueryTests(unittest.TestCase):
-	def setUp(self):
-		self.query = Query()
-
-	def test_continent(self):
+	def _test_asia_earthquakes(self):
 		storage = web.Storage()
 		storage.continent = 'AS'
 		storage.natural_hazard='earthquake'
-		self.query.execute(storage)
+		query = Query(storage)
+		countries = query.execute()
+		self.assertIsInstance(countries, list)
+		print 'countries in asia with earthquakes: %s' % str(countries)
+	def test_africa_political_parties_greater_than_10(self):
+		storage = web.Storage()
+		storage.continent = 'AF'
+		storage.political_party_count_gt_n = 10
+		query = Query(storage)
+		countries = query.execute()
+		self.assertIsInstance(countries, list)
+		print 'countries in africa with political parties > 10: %s' % str(countries)
 
 if __name__ == '__main__':
     print "=================="

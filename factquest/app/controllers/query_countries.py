@@ -12,7 +12,7 @@ else:
 class QueryCountries:
 	def GET(self):
 		input = web.input()
-		qp = Query()
-		r = qp.execute(input)
+		qp = Query(input)
+		r = qp.execute()
 		web.header('Content-Type', 'application/json')
 		return json.dumps(r)

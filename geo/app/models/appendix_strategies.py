@@ -12,7 +12,10 @@ def get_fips_10(html):
 	soup = BeautifulSoup(html)
 	bs = soup.findAll('table',cellpadding=1, cellspacing=1)
 	for b in bs:
-		country_rows = b.tbody.findAll('tr', recursive=False)
+		t = b
+		if b.tbody:
+			t = b.tbody
+		country_rows = t.findAll('tr', recursive=False)
 		for country_row in country_rows:
 			cols = country_row.findAll('td', recursive=False)
 			if len(cols) < 2:
