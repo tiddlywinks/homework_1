@@ -42,3 +42,12 @@ class CrawlerTests(unittest.TestCase):
 #		spider = CountrySpider(countries, countriesWithMoreThanNParties, n) # this takes a predicate that pages must satisfy
 #		countriesWithEarthQuakes = spider.crawl()
 #		actualCountriesWithEarthQuakes = []
+
+
+if __name__ == '__main__':
+    print "=================="
+    print "STARTING - Crawler TESTS"
+    print "=================="
+    print "######################################################################"
+    suite = unittest.TestLoader().loadTestsFromTestCase(CrawlerTests)
+    unittest.TextTestRunner(verbosity=2).run(suite)
