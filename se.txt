@@ -1,0 +1,64 @@
+Did you use any of the following? 
+If yes, how and what were the advantages and disadvantages of using it? 
+If no, why not (e.g., I don’t know what this is, I know what this is but don’t know how to use it in a project)?
+
+== Requirements Engineering ==
+No; I have an idea what this is, but don't know how to use this in a project.
+
+== Formal Design (e.g., UML, CRCs, Design Patterns) == 
+I did use design patterns; in particular I relied on MVC, strategy and adapter. I have heard of UML but don't know how
+to use it and I am not familiar with CRCs.
+
+MVC helped to separate the logic and view and to make the web application testable. A disadvantage was that
+since it is a framework, there are extra layers that must be passed before my code gets executed. Sometimes
+this got in the way. For example, parameters were passed to the controller as strings and need to be serialized
+to the types my code expects.
+
+The strategy pattern allowed the algorithm that was performed on pages to be determined at runtime. 
+This allows very specific behavior to be made but also makes more generic functionality more difficult 
+to implement.
+
+The adapter pattern was also used in the strategy implementations to allow them to work together. For example, 
+in order to find countries with political parties greater than some number, the category(), 
+political_party_count(), political_party_count_gt_n(). This is beneficial because if the method of retrieving
+one aspect of data changes (i.e. how to extract category data) it doesnt have to affect the other aspects. It was
+disadvantageous at times because 
+
+== Software Process (e.g., Waterfall, Agile) ==
+I think my methodology resembled a single iteration in agile software development. This helped me to remain focused on
+the task at hand. For example, as a programmer, I would have liked to restructure the way knowledge was extracted to be more
+precise and to implement a more comprehensive query system; but I consulted my customer self and decided it was more 
+important that the system implement the primary use cases.
+
+== Software Testing (e.g., Black Box, White Box, Acceptance Testing) ==
+I am not throughly familiar with formal testing methods. I did however use black box testing, that is I focused on the 
+functionality of the major components of the application rather than the internal structure. This allowed me to identify major
+bugs quickly and a general idea of where/how to fix them but it sometimes didn't give me the evidence I needed to identify
+internal problems. For example, there was a bug in political_party_count_gt_n because types were not being serialized to the
+type expected by the strategy method. This caused comparison between string and number which is inconsistent with numeric comparison.
+It took a while for me to identify this bug because I only relied on black box testing. I think white box testing would have helped
+me identify the bug faster, but I suspect it would have slowed down overall development.
+
+== Software Quality Assurance (e.g., Code Inspection, Refactoring) ==
+I have an idea what these are but don't know how to use them in a project.
+
+== Software Component Models (e.g., External Libraries, EJB, Web Services) ==
+I used external libraries; in particular web.py, Beautiful Soup, html5lib and jquery were useful.
+web.py made it quick and easy to get something working but the lack of tools (IDEs) that support it was a disadvantage.
+Beautiful Soup was great for querying the documents from the website but I had to rely on the more
+lenient html5lib parser to extract it. The disadvantage of using these is that the html is often not well formed
+and regular expressions may be more useful.
+
+I implemented the application as a REST service. The advantage is that most platforms will be able to support a client to
+the service. A disadvantage I found was that complex queries can be difficult to represent in REST. This can be resolved
+with a more comprehensive query subsystem, but that is an additional layer that wouldn't be necessary in other
+platforms.
+
+== Software Tools (e.g., IDEs, Version Control Systems, Bug Repositories) ==
+Though I am familiar with some IDEs, I don't know of one that I found satisfactory to use with Python. Instead, I used Programmer's Notepad
+which is a very good text editor for Windows. It has syntax highlighting and other helpful features, but I had to use external tools 
+(multiple instances of the python interpreter, Windows Explorer instances, a browser) in separate windows to accomplish my task.
+
+Though I am familiar with SVN, I used Git for the first time to maintain this project. I found it easy to use for operations that have analagous
+counterparts in SVN but there was/still is a learning curve for Git verbs and the Git philosophy in general.
+

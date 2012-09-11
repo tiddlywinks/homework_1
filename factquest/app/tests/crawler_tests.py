@@ -20,29 +20,6 @@ class CrawlerTests(unittest.TestCase):
 		self.assertEqual(badResult['url'], CrawlerTests.TestUrls[lastIndex])
 		self.assertIsNone(badResult['response'])
 		self.assertIsNotNone(badResult['error'])
-#
-#	def test_CountryCrawler(self):
-#		def countriesWithEarthquakes(t):
-#			return 'earthquake' in t
-#		def countriesWithMoreThanNParties(t, n):
-#			import re
-#			anchorWithParties = findAnchor() # do with bs4
-#			partyText = anchorWithParties.after('.category_date').content # get the category_date immediately after
-#			partyCount = len([m.start() for m in re.finditer(';', partyText)])-1
-#			return partyCount > n
-#		def countriesWithColorFlag(t, c):
-#			import re
-#			anchorWithParties = findAnchor() # do with bs4
-#			partyText = anchorWithParties.after('.category_date').content # get the category_date immediately after
-#			partyCount = len([m.start() for m in re.finditer(';', partyText)])-1
-#			return partyCount > n
-#		spider = CountrySpider(countries, countriesWithEarthquakes) # this takes a predicate that pages must satisfy
-#		countriesWithEarthQuakes = spider.crawl()
-#		actualCountriesWithEarthQuakes = []
-#		spider = CountrySpider(countries, countriesWithMoreThanNParties, n) # this takes a predicate that pages must satisfy
-#		countriesWithEarthQuakes = spider.crawl()
-#		actualCountriesWithEarthQuakes = []
-
 
 if __name__ == '__main__':
     print "=================="

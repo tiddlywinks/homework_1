@@ -5,73 +5,81 @@
 	</head>
 	<body>
 		<ul>
-		<li>
-			List countries in 
-			<select id="continent1">
-				<option value="af">Africa</option>
-				<option value="as">Asia</option>
-				<option value="eu">Europe</option>
-				<option value="na">North America</option>
-				<option value="af">South America</option>
-				<option value="oc">Oceania</option>
-				<option value="af">Antarctica</option>
-			</select> 
-			that are prone to 
-			<select id="natural_hazard">
-				<option value="earthquake">earthquakes</option>	
-				<option value="volcan">volcanic activity</option>	
-				<option value="landslide">landslides</option>	
-				<option value="drought">droughts</option>	
-				<option value="flood">floods</option>	
-			</select>.
-			<button id='hazard'>Go</button>
-			<div id='hazard_response'>
-			</div>
-		</li>
-		<li>
-			List countries in 
-			<select id="continent2">
-				<option value="af">Africa</option>
-				<option value="as">Asia</option>
-				<option value="eu">Europe</option>
-				<option value="na">North America</option>
-				<option value="af">South America</option>
-				<option value="oc">Oceania</option>
-				<option value="af">Antarctica</option>
-			</select> 
-			with more than 
-			<input type='text' id='political_parties_count' value='10' />
-			political parties.
-			<button id='political_parties'>Go</button>
-			<div id='political_parties_response'>
-			</div>
-		</li>
-		<li>
-			 Find all countries that have the color 
-			<select id="flag_contains_color">
-				<option value="red">red</option>
-				<option value="blue">blue</option>
-				<option value="yellow">yellow</option>
-				<option value="orange">orange</option>
-				<option value="green">green</option>
-				<option value="white">white</option>
-				<option value="black">black</option>
-				<option value="purple">purple</option>
-			</select>
-			in their flag.
-			<button id='flag_color'>Go</button>
-			<div id='flag_color_response'>
-			</div>
-		</li>
-		<li>
-		A landlocked country is one that is entirely enclosed by land. For example, Austria is landlocked and shares its borders with Germany, Czech Republic, Hungary, etc. There are certain countries that are entirely landlocked by a single country. Find these countries.
-		<button id='landlocked'>Go</button>
-		</li>
 		
-		<li>
-		Capitals that are within <input type="text" name="degrees_latitude" value="10"></input> degrees of latitude and longitude of each other. Find the lat/long coordinates and the list of countries/capitals so that the number of capitals is maximized.
-		<button id='capitals'>go</button>
-		</li>
+			<li>
+				List countries in 
+				<select id="continent1">
+					<option value="af">Africa</option>
+					<option value="as">Asia</option>
+					<option value="eu">Europe</option>
+					<option value="na">North America</option>
+					<option value="af">South America</option>
+					<option value="oc">Oceania</option>
+					<option value="af">Antarctica</option>
+				</select> 
+				that are prone to 
+				<select id="natural_hazard">
+					<option value="earthquake">earthquakes</option>	
+					<option value="volcan">volcanic activity</option>	
+					<option value="landslide">landslides</option>	
+					<option value="drought">droughts</option>	
+					<option value="flood">floods</option>	
+				</select>.
+				<button id='hazard'>Go</button>
+				<div id='hazard_response'>
+				</div>
+			</li>
+			
+			<li>
+				List countries in 
+				<select id="continent2">
+					<option value="af">Africa</option>
+					<option value="as">Asia</option>
+					<option value="eu">Europe</option>
+					<option value="na">North America</option>
+					<option value="af">South America</option>
+					<option value="oc">Oceania</option>
+					<option value="af">Antarctica</option>
+				</select> 
+				with more than 
+				<input type='text' id='political_parties_count' value='10' />
+				political parties.
+				<button id='political_parties'>Go</button>
+				<div id='political_parties_response'>
+				</div>
+			</li>
+			
+			<li>
+				 Find all countries that have the color 
+				<select id="flag_contains_color">
+					<option value="red">red</option>
+					<option value="blue">blue</option>
+					<option value="yellow">yellow</option>
+					<option value="orange">orange</option>
+					<option value="green">green</option>
+					<option value="white">white</option>
+					<option value="black">black</option>
+					<option value="purple">purple</option>
+				</select>
+				in their flag.
+				<button id='flag_color'>Go</button>
+				<div id='flag_color_response'>
+				</div>
+			</li>
+			
+			<li>
+				Find countries that are entirely landlocked by a single country.
+				<button id='enclave'>Go</button>
+				<div id='enclave_response'>
+				</div>
+			</li>
+			
+			<li>
+				Capitals that are within <input type="text" name="degrees_latitude" value="10"></input> degrees of latitude and longitude of each other. 
+				Find the lat/long coordinates and the list of countries/capitals so that the number of capitals is maximized.
+				<button id='capitals'>go</button>
+			</li>
+			
 		</ul>
 		<script type='text/javascript'>
 			jQuery(function(){
@@ -122,25 +130,45 @@
 				// flag color
 				var flag_color = jQuery('#flag_color');
 				flag_color.click(function(){
-				flag_color.hide();
-				var continent = '';
-				var flag_contains_color = jQuery('#flag_contains_color').val();
-				jQuery.ajax({ url : '/countries/?continent=&flag_contains_color='+flag_contains_color,
+					flag_color.hide();
+					var continent = '';
+					var flag_contains_color = jQuery('#flag_contains_color').val();
+					jQuery.ajax({ url : '/countries/?continent=&flag_contains_color='+flag_contains_color,
+								  dataType : 'json',
+								  success : function(countries){
+									var flag_color_response = jQuery('#flag_color_response');
+									var response = '<ul>';
+									for(var i = 0; i < countries.length; i++){
+										var country = countries[i];
+										response += '<li>' + country['country_name'] + '</li>';
+									}
+									response += '</ul>';
+									flag_color_response.html(response);
+									flag_color.show();
+								  }
+								});
+				});
+				
+				// enclave
+				var enclave = jQuery('#enclave');
+				enclave.click(function(){
+					enclave.hide();
+					jQuery.ajax({ url : '/countries/?enclave=1',
 							  dataType : 'json',
 							  success : function(countries){
-								var flag_color_response = jQuery('#flag_color_response');
+								var enclave_response = jQuery('#enclave_response');
 								var response = '<ul>';
 								for(var i = 0; i < countries.length; i++){
 									var country = countries[i];
 									response += '<li>' + country['country_name'] + '</li>';
 								}
 								response += '</ul>';
-								flag_color_response.html(response);
-								flag_color.show();
+								enclave_response.html(response);
+								enclave.show();
 							  }
 							});
-
 				});
+				
 			});
 		</script>
 	</body>

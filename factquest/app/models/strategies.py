@@ -27,17 +27,25 @@ def political_party_count(html):
 	return len(text.split(';'))-1
 
 def political_party_count_gt_n(html, n):
-	return political_party_count(html) > int(n)
+	return political_party_count(html) > int(n) # bugfix: must ensure serialized to int
 
-# gets whether or not has hazard
+# true if natural hazards section contains hazard word
 def natural_hazard(html, hazard):
 	hazards_data = category(html, 'hazard')
 	if not hazards_data:
 		return None
-	return hazard in hazards_data
+	return hazard.lower() in hazards_data.lower()
 
 def flag_contains_color(html, color):
 	flag_data = category(html, 'flag')
 	if not flag_data:
 		return None
-	return color in flag_data
+	return color.lower() in flag_data.lower()
+
+# True if location mentions enclave
+# TODO toss dummy param after fix Query to allow no params
+def enclave(html, dummy_param):
+	location = category(html, 'Location')
+	if not location:
+		return None
+	return 'enclave' in location.lower()

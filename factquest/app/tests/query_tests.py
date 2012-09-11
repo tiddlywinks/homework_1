@@ -6,14 +6,15 @@ from paste.fixture import TestApp
 from application import app
 
 class QueryTests(unittest.TestCase):
-	def _test_asia_earthquakes(self):
+	def test_asia_earthquakes(self):
 		storage = web.Storage()
 		storage.continent = 'AS'
 		storage.natural_hazard='earthquake'
 		query = Query(storage)
 		countries = query.execute()
 		self.assertIsInstance(countries, list)
-		print 'countries in asia with earthquakes: %s' % str(countries)
+		# print 'countries in Asia with earthquakes: %s' % str(countries)
+		
 	def test_africa_political_parties_greater_than_10(self):
 		storage = web.Storage()
 		storage.continent = 'AF'
@@ -21,7 +22,27 @@ class QueryTests(unittest.TestCase):
 		query = Query(storage)
 		countries = query.execute()
 		self.assertIsInstance(countries, list)
-		print 'countries in africa with political parties > 10: %s' % str(countries)
+		# print 'countries in Africa with political parties > 10: %s' % str(countries)
+		
+	def test_na_flag_contains_color_orange(self):
+		storage = web.Storage()
+		storage.continent = 'NA'
+		storage.flag_contains_color = 'orange'
+		query = Query(storage)
+		countries = query.execute()
+		self.assertIsInstance(countries, list)
+		self.assertEqual(len(countries), 2)
+		# print 'countries in North America with flags containing color orange: %s' % str(countries)
+		
+	def test_enclave(self):
+		storage = web.Storage()
+		storage.continent = ''
+		storage.enclave = 1
+		query = Query(storage)
+		countries = query.execute()
+		self.assertIsInstance(countries, list)
+		self.assertEqual(len(countries), 3)
+		# print 'Enclave countries: %s' % str(countries)
 
 if __name__ == '__main__':
     print "=================="

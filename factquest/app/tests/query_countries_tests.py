@@ -12,7 +12,7 @@ class QueryCountriesTests(unittest.TestCase):
 		middleware = []
 		self.testApp = TestApp(app.wsgifunc(*middleware))
 	
-	def _test_QueryCountriesForEarthquake(self):
+	def test_QueryCountriesForEarthquake(self):
 		continents = get_continents()
 		continents = continents[0:1]
 		msg = 'countries in %s with earthquakes: %s'
@@ -21,7 +21,7 @@ class QueryCountriesTests(unittest.TestCase):
 			for hazard in hazards:
 				r = self.testApp.get('/countries/?continent=%s&natural_hazard=%s' % (continent['code'], hazard))
 				countries = json.loads(r.body)
-				print msg % (continent['code'], str(countries))
+				# print msg % (continent['code'], str(countries))
 	
 	def test_QueryCountriesForMoreThanNPoliticalParties(self):
 		continents = get_continents()
@@ -32,21 +32,24 @@ class QueryCountriesTests(unittest.TestCase):
 				r = self.testApp.get('/countries/?continent=%s&political_party_count_gt_n=%s' % (continent['code'], party_count))
 				countries = json.loads(r.body)
 				self.assertIsInstance(countries, list)
-				print msg % (continent['code'], party_count, str(countries))
+				# print msg % (continent['code'], party_count, str(countries))
 
-	def _test_QueryCountriesWithColorFlag(self):
+	def test_QueryCountriesWithColorFlag(self):
 		colors = ['blue', 'red', 'lavendar']
 		msg = 'countries with %s in flag: %s'
 		for color in colors:
 			r = self.testApp.get('/countries/?continent=NA&flag_contains_color=%s' % color)
 			countries = json.loads(r.body)
 			self.assertIsInstance(countries, list)
-			print msg % (color, str(countries))
+			# print msg % (color, str(countries))
 
-	def _QueryCountriesLandlocked(self):
-		r = self.testApp.get('/countries/?flag_contains=%s' % color)
-		countries = json.loads(r)
-		self.assertIsInstance(list)
+	def test_QueryEnclave(self):
+		msg = 'enclave countries: %s'
+		r = self.testApp.get('/countries/?enclave=1')
+		countries = json.loads(r.body)
+		self.assertIsInstance(list, countries)
+		assertEqual(len(countries), 3)
+		# print msg % str(countries)
 
 if __name__ == '__main__':
     print "=================="
