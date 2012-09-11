@@ -27,7 +27,7 @@ def political_party_count(html):
 	return len(text.split(';'))-1
 
 def political_party_count_gt_n(html, n):
-	return political_party_count(html) > n
+	return political_party_count(html) > int(n)
 
 # gets whether or not has hazard
 def natural_hazard(html, hazard):

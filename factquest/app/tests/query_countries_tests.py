@@ -12,7 +12,7 @@ class QueryCountriesTests(unittest.TestCase):
 		middleware = []
 		self.testApp = TestApp(app.wsgifunc(*middleware))
 	
-	def test_QueryCountriesForEarthquake(self):
+	def _test_QueryCountriesForEarthquake(self):
 		continents = get_continents()
 		continents = continents[0:1]
 		msg = 'countries in %s with earthquakes: %s'
@@ -34,7 +34,7 @@ class QueryCountriesTests(unittest.TestCase):
 				self.assertIsInstance(countries, list)
 				print msg % (continent['code'], party_count, str(countries))
 
-	def test_QueryCountriesWithColorFlag(self):
+	def _test_QueryCountriesWithColorFlag(self):
 		colors = ['blue', 'red', 'lavendar']
 		msg = 'countries with %s in flag: %s'
 		for color in colors:

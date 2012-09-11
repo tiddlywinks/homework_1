@@ -2,7 +2,7 @@ import urllib2
 import time
 
 class Crawler:
-	def __init__(self, urls, delay_seconds=1):
+	def __init__(self, urls, delay_seconds=0.5):
 		self.urls = urls
 		self.delay_seconds = delay_seconds
 	def crawl(self):
