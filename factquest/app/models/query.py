@@ -20,7 +20,11 @@ class Query():
 		strategy = getattr(strategies, self.strategy_name) # get the strategy from module
 		clr = Crawler(urls=[url for (c, url) in self.country_urls])
 		pages = clr.crawl()
-		mask = map(lambda page: strategy(page['response'], self.parameters), pages)
-		result_pages = [page['url'] for (page, satisfied) in zip(pages, mask) if satisfied]
-		result = [country for (country, url) in self.country_urls if url in result_pages]
+		result = None
+		if 'all_pages' in dir(strategy): # i.e. max degrees
+			result = strategy(all_pages, self.parameters)
+		else:
+			mask = map(lambda page: strategy(page['response'], self.parameters), pages)
+			result_pages = [page['url'] for (page, satisfied) in zip(pages, mask) if satisfied]
+			result = [country for (country, url) in self.country_urls if url in result_pages]
 		return result

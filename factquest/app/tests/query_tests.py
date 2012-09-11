@@ -36,13 +36,20 @@ class QueryTests(unittest.TestCase):
 		
 	def test_enclave(self):
 		storage = web.Storage()
-		storage.continent = ''
 		storage.enclave = 1
 		query = Query(storage)
 		countries = query.execute()
 		self.assertIsInstance(countries, list)
 		self.assertEqual(len(countries), 3)
 		# print 'Enclave countries: %s' % str(countries)
+		
+	def test_max_within_n_degrees(self):
+		storage = web.Storage()
+		storage.max_within_n_degrees = 10
+		query = Query(storage)
+		countries = query.execute()
+		self.assertIsInstance(countries, list)
+		# print 'Max countries within 10 degrees: %s' % str(countries)
 
 if __name__ == '__main__':
     print "=================="

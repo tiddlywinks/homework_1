@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 from utils import curry
+from scipy.cluster.hierarchy import linkage, fcluster
+from collections import Counter
 import re
 
 """these are strategies (algorithms determined at runtime)"""
@@ -49,3 +51,41 @@ def enclave(html, dummy_param):
 	if not location:
 		return None
 	return 'enclave' in location.lower()
+	
+def convert_coords(ll):
+	lat_frag, long_frag = map(lambda s: s.strip(), ll.split(','))
+	lat_mul = -1.0 if lat_frag[len(lat_frag)-1].lower() == 's' else 1.0
+	lon_mul = -1.0 if long_frag[len(long_frag)-1].lower() == 'w' else 1.0
+	lat = float('.'.join(lat_frag.split(' ')[0:2])) * lat_mul
+	lon = float('.'.join(long_frag.split(' ')[0:2])) * lon_mul
+	return lat, lon
+	
+def _capital_coordinates(html, dummy_param):
+	soup = BeautifulSoup(html, 'html5lib')
+	anchor = soup.find("a", { "alt" : re.compile(".*Definitions and Notes: Capital.*", re.IGNORECASE) })
+	td = anchor.find_next('tr').find('td')
+	try:
+		divs = td.find_all('div')
+		name = divs[0].find('span').text
+		ll = divs[1].find('span').text
+		return (name, convert_coords(ll))
+	except Exception, e:
+		return None
+
+def capital_coordinates(htmls, n):
+	capitals_coords = []
+	for html in htmls:
+		r = _capital_coordinates(html, n)
+		if r:
+			capitals_coords.append(r)
+	coords = [(lat, lon) for (country_name, (lat, lon)) in capitals_coords]
+	z = linkage(coords, method='complete')
+	clusters = fcluster(z, 1)
+	counter = Counter(clusters)
+	selected_cluster = b.most_common(1)[0][0]
+	result = []
+	for i in range(0, len(capitals_coords)-1):
+		if clusters[i] == selected_cluster:
+			result.append(capitals_coords[0]) # country
+	return result
+capital_coordinates.all_pages = True
