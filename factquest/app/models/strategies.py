@@ -17,6 +17,13 @@ def category(html, category):
 	if not category_data:
 		return None
 	return category_data.text
+	
+def country(html):
+	soup = BeautifulSoup(html, 'html5lib')
+	span = soup.find('span', { 'class' : 'region_name1' })
+	if span:
+		return span.text
+	return None
 
 # gets the political party text
 political_party = curry(category, category='political parties')
@@ -63,12 +70,14 @@ def convert_coords(ll):
 def _capital_coordinates(html, dummy_param):
 	soup = BeautifulSoup(html, 'html5lib')
 	anchor = soup.find("a", { "alt" : re.compile(".*Definitions and Notes: Capital.*", re.IGNORECASE) })
-	td = anchor.find_next('tr').find('td')
 	try:
+		td = anchor.find_next('tr').find('td')
 		divs = td.find_all('div')
-		name = divs[0].find('span').text
+		country_name = country(html)
+		capital_name = divs[0].find('span').text
 		ll = divs[1].find('span').text
-		return (name, convert_coords(ll))
+		coords = convert_coords(ll)
+		return { 'capital' : capital_name, 'country' : country_name, 'coordinates' : { 'latitude' : coords[0], 'longitude' : coords[1] } }
 	except Exception, e:
 		return None
 
@@ -78,14 +87,16 @@ def capital_coordinates(htmls, n):
 		r = _capital_coordinates(html, n)
 		if r:
 			capitals_coords.append(r)
-	coords = [(lat, lon) for (country_name, (lat, lon)) in capitals_coords]
-	z = linkage(coords, method='complete')
-	clusters = fcluster(z, 1)
-	counter = Counter(clusters)
-	selected_cluster = b.most_common(1)[0][0]
+	coords = [(capital_coord['coordinates']['latitude'], capital_coord['coordinates']['longitude'])  for capital_coord in capitals_coords]
+	# flat cluster using farthest-neighbor cluster distance method
+	z = linkage(coords, method='complete') 
+	clusters = fcluster(z, t=float(n), criterion='distance')
+	# which cluster has the most items in it?
+	counter = Counter(clusters) 
+	selected_cluster = counter.most_common(1)[0][0]
 	result = []
 	for i in range(0, len(capitals_coords)-1):
 		if clusters[i] == selected_cluster:
-			result.append(capitals_coords[0]) # country
+			result.append(capitals_coords[i]) # { 'capital' : capital_name, 'country' : country_name, 'coordinates' : { 'latitude' : coords[0], 'longitude' : coords[1] } }
 	return result
 capital_coordinates.all_pages = True

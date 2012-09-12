@@ -1,6 +1,7 @@
 import urllib2
 from bs4 import BeautifulSoup
 import appendix_strategies
+import re
 
 class Countries:
 	_continents_url = "http://en.wikipedia.org/wiki/List_of_sovereign_states_and_dependent_territories_by_continent_(data_file)"
@@ -30,16 +31,18 @@ class Countries:
 		name_fips = appendix_strategies.get_fips_10(html)
 		for country in countries:
 			def clean_name(s):
-				return s.lower().replace('the','').replace('republic','').replace('states', '').replace('&','').replace('state','').replace('of', '').strip()
+				m = re.sub(' (\(|democratic republic of the|republic of the|rupublic of).*', '', s.lower())
+				m = re.sub(', .*', '', m)
+				return m.strip()
 			def wordsMatchThreshold(n, s, ws):
 				contained = 0
 				for w in ws:
 					if w in s:
 						contained = contained + 1
 				return contained/float(len(ws)) >= n
-			matches = [name_fip['fips'] for name_fip in name_fips if clean_name(country['country_name']).split(' ')[0].lower() in name_fip['name'].lower()]
+			matches = [name_fip['fips'] for name_fip in name_fips if clean_name(name_fip['name']) in country['country_name'].lower()]
 #			if not len(matches):
-#				print 'no match for "' + clean_name(country['country_name']) + '"'
+#				print 'no match for "' + country['country_name'] + '"'
 			country['code'] = matches[0] if len(matches) else None
 		Countries._countries = countries
 

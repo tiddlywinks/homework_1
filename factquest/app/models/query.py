@@ -22,6 +22,7 @@ class Query():
 		pages = clr.crawl()
 		result = None
 		if 'all_pages' in dir(strategy): # i.e. max degrees
+			all_pages = [page['response'] for page in pages]
 			result = strategy(all_pages, self.parameters)
 		else:
 			mask = map(lambda page: strategy(page['response'], self.parameters), pages)

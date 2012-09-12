@@ -2,10 +2,25 @@
 	<head>
 		<title>Factbook Query</title>
 		<script type='text/javascript' src='/static/scripts/jquery.js'></script>
+		<style>
+			html, body { font-family: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif; }
+			li { padding: 1em 0em; }
+			button { display: block; }
+			.response {
+				background: #CAEBD8;
+				margin: .5em 0;
+				padding: .5em;
+				width: 50%;
+			}
+			.pending {
+				background: #F2F1B1;
+			}
+		</style>
 	</head>
 	<body>
-		<ul>
-		
+		<h1>FactQuest</h1>
+		<p></p>
+		<ol>
 			<li>
 				List countries in 
 				<select id="continent1">
@@ -26,7 +41,7 @@
 					<option value="flood">floods</option>	
 				</select>.
 				<button id='hazard'>Go</button>
-				<div id='hazard_response'>
+				<div id='hazard_response' class='response'>
 				</div>
 			</li>
 			
@@ -45,7 +60,7 @@
 				<input type='text' id='political_parties_count' value='10' />
 				political parties.
 				<button id='political_parties'>Go</button>
-				<div id='political_parties_response'>
+				<div id='political_parties_response' class='response'>
 				</div>
 			</li>
 			
@@ -63,24 +78,27 @@
 				</select>
 				in their flag.
 				<button id='flag_color'>Go</button>
-				<div id='flag_color_response'>
+				<div id='flag_color_response' class='response'>
 				</div>
 			</li>
 			
 			<li>
 				Find countries that are entirely landlocked by a single country.
 				<button id='enclave'>Go</button>
-				<div id='enclave_response'>
+				<div id='enclave_response' class="response">
 				</div>
 			</li>
 			
 			<li>
-				Capitals that are within <input type="text" name="degrees_latitude" value="10"></input> degrees of latitude and longitude of each other. 
+				Find capitals that are within <input type="text" id="within_degreees" value="10"></input> degrees of latitude and longitude of each other. 
+				<br />
 				Find the lat/long coordinates and the list of countries/capitals so that the number of capitals is maximized.
-				<button id='capitals'>go</button>
+				<button id='capital_coordinates'>Go</button>
+				<div id='capital_coordinates_response' class='response'>
+				</div>
 			</li>
 			
-		</ul>
+		</ol>
 		<script type='text/javascript'>
 			jQuery(function(){
 				// natural hazards
@@ -89,10 +107,11 @@
 					hazard_button.hide();
 					var continent = jQuery('#continent1').val();
 					var natural_hazard = jQuery('#natural_hazard').val();
+					var hazard_response = jQuery('#hazard_response');
 					jQuery.ajax({ url : '/countries/?continent='+continent+'&natural_hazard='+natural_hazard,
 								  dataType : 'json',
 								  success : function(countries){
-									var hazard_response = jQuery('#hazard_response');
+									hazard_response.removeClass('pending');
 									var response = '<ul>';
 									for(var i = 0; i < countries.length; i++){
 										var country = countries[i];
@@ -103,6 +122,8 @@
 									hazard_button.show();
 								  }
 								});
+					hazard_response.addClass('pending');
+					hazard_response.html('pending...');
 				});
 				
 				// political parties
@@ -111,10 +132,11 @@
 					political_parties.hide();
 					var continent = jQuery('#continent2').val();
 					var political_parties_count = jQuery('#political_parties_count').val();
+					var political_parties_response = jQuery('#political_parties_response');
 					jQuery.ajax({ url : '/countries/?continent='+continent+'&political_party_count_gt_n='+political_parties_count,
 								  dataType : 'json',
 								  success : function(countries){
-									var political_parties_response = jQuery('#political_parties_response');
+									political_parties_response.removeClass('pending');
 									var response = '<ul>';
 									for(var i = 0; i < countries.length; i++){
 										var country = countries[i];
@@ -125,6 +147,8 @@
 									political_parties.show();
 								  }
 								});
+					political_parties_response.addClass('pending');
+					political_parties_response.html('pending...');
 				});
 				
 				// flag color
@@ -133,10 +157,11 @@
 					flag_color.hide();
 					var continent = '';
 					var flag_contains_color = jQuery('#flag_contains_color').val();
+					var flag_color_response = jQuery('#flag_color_response');
 					jQuery.ajax({ url : '/countries/?continent=&flag_contains_color='+flag_contains_color,
 								  dataType : 'json',
 								  success : function(countries){
-									var flag_color_response = jQuery('#flag_color_response');
+									flag_color_response.removeClass('pending');
 									var response = '<ul>';
 									for(var i = 0; i < countries.length; i++){
 										var country = countries[i];
@@ -147,16 +172,19 @@
 									flag_color.show();
 								  }
 								});
+					flag_color_response.addClass('pending');
+					flag_color_response.html('pending...');
 				});
 				
 				// enclave
 				var enclave = jQuery('#enclave');
 				enclave.click(function(){
+					var enclave_response = jQuery('#enclave_response');
 					enclave.hide();
 					jQuery.ajax({ url : '/countries/?enclave=1',
 							  dataType : 'json',
 							  success : function(countries){
-								var enclave_response = jQuery('#enclave_response');
+								enclave_response.removeClass('pending');
 								var response = '<ul>';
 								for(var i = 0; i < countries.length; i++){
 									var country = countries[i];
@@ -167,6 +195,42 @@
 								enclave.show();
 							  }
 							});
+					enclave_response.addClass('pending');
+					enclave_response.html('pending...');
+				});
+				
+				// enclave
+				var capital_coordinates = jQuery('#capital_coordinates');
+				capital_coordinates.click(function(){
+					var capital_coordinates_response = jQuery('#capital_coordinates_response');
+					capital_coordinates.hide();
+					var within_degrees = jQuery("#within_degreees").val();
+					jQuery.ajax({ url : '/countries/?capital_coordinates='+within_degrees,
+							  dataType : 'json',
+							  success : function(capital_coords){
+								capital_coordinates_response.removeClass('pending');
+								var response = '<ul>';
+								// { 'capital' : capital_name, 'country' : country_name, 'coordinates' : { 'latitude' : coords[0], 'longitude' : coords[1] } }
+								for(var i = 0; i < capital_coords.length; i++){
+									var capital_coord = capital_coords[i];
+									response += '<li>' 
+												 + '<dl>'
+												 + 		'<dt>Capital</dt>' 
+												 + 		'<dd>' + capital_coord['capital'] + '</dd>'
+												 + 		'<dt>Country</dt>' 
+												 + 		'<dd>' + capital_coord['country'] + '</dd>'
+												 + 		'<dt>Courdinates</dt>' 
+												 + 		'<dd>' + capital_coord['coordinates']['latitude'] + ', ' + capital_coord['coordinates']['longitude'] + '</dd>'
+												 + '<dl>'
+											 + '</li>';
+								}
+								response += '</ul>';
+								capital_coordinates_response.html(response);
+								capital_coordinates.show();
+							  }
+							});
+						capital_coordinates_response.addClass('pending');
+						capital_coordinates_response.html('pending...');
 				});
 				
 			});

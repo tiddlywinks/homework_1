@@ -1,0 +1,234 @@
+<html><head>
+                <title>Factbook Query</title>
+                <script src="/static/scripts/jquery.js" type="text/javascript"></script>
+                <style>
+                        html, body { font-family: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif; }
+                        li { padding: 1em 0em; }
+                        button { display: block; }
+                        .response {
+                                background: #CAEBD8;
+                                margin: .5em 0;
+                                padding: .5em;
+                                width: 50%;
+                        }
+                        .pending {
+                                background: #F2F1B1;
+                        }
+                </style>
+        </head>
+        <body>
+                <h1>FactQuest</h1>
+                <p></p>
+                <ol>
+                        <li>
+                                List countries in 
+                                <select id="continent1">
+                                        <option value="af">Africa</option>
+                                        <option value="as" selected="selected">Asia</option>
+                                        <option value="eu">Europe</option>
+                                        <option value="na">North America</option>
+                                        <option value="af">South America</option>
+                                        <option value="oc">Oceania</option>
+                                        <option value="af">Antarctica</option>
+                                </select> 
+                                that are prone to 
+                                <select id="natural_hazard">
+                                        <option value="earthquake">earthquakes</option> 
+                                        <option value="volcan">volcanic activity</option>       
+                                        <option value="landslide">landslides</option>   
+                                        <option value="drought">droughts</option>       
+                                        <option value="flood">floods</option>   
+                                </select>.
+                                <button id="hazard" style="display: block;">Go</button>
+                                <div class="response" id="hazard_response"><ul><li>Afghanistan Islamic Republic of</li><li>Armenia Republic of</li><li>Brunei Darussalam</li><li>China People's Republic of</li><li>Taiwan</li><li>Cyprus Republic of</li><li>Georgia</li><li>Indonesia Republic of</li><li>Iran Islamic Republic of</li><li>Israel State of</li><li>Japan</li><li>Kazakhstan Republic of</li><li>Jordan Hashemite Kingdom of</li><li>Pakistan Islamic Republic of</li><li>Philippines Republic of the</li><li>Timor-Leste Democratic Republic of</li><li>Tajikistan Republic of</li><li>Turkey Republic of</li></ul></div>
+                        </li>
+                        
+                        <li>
+                                List countries in 
+                                <select id="continent2">
+                                        <option value="af" selected="selected">Africa</option>
+                                        <option value="as">Asia</option>
+                                        <option value="eu">Europe</option>
+                                        <option value="na">North America</option>
+                                        <option value="af">South America</option>
+                                        <option value="oc">Oceania</option>
+                                        <option value="af">Antarctica</option>
+                                </select> 
+                                with more than 
+                                <input type="text" value="10" id="political_parties_count">
+                                political parties.
+                                <button id="political_parties" style="display: block;">Go</button>
+                                <div class="response" id="political_parties_response"><ul><li>Algeria People's Democratic Republic of</li><li>Central African Republic</li><li>Benin Republic of</li><li>Ethiopia Federal Democratic Republic of</li><li>Gabon Gabonese Republic</li><li>Lesotho Kingdom of</li><li>Malawi Republic of</li><li>Mali Republic of</li><li>Mauritania Islamic Republic of</li><li>Morocco Kingdom of</li><li>Nigeria Federal Republic of</li><li>Guinea-Bissau Republic of</li><li>Rwanda Republic of</li><li>Senegal Republic of</li><li>Togo Togolese Republic</li><li>Tunisia Tunisian Republic</li><li>Burkina Faso</li><li>Zambia Republic of</li></ul></div>
+                        </li>
+                        
+                        <li>
+                                 Find all countries that have the color 
+                                <select id="flag_contains_color">
+                                        <option value="red">red</option>
+                                        <option value="blue">blue</option>
+                                        <option value="yellow">yellow</option>
+                                        <option value="orange" selected="selected">orange</option>
+                                        <option value="green">green</option>
+                                        <option value="white">white</option>
+                                        <option value="black">black</option>
+                                        <option value="purple">purple</option>
+                                </select>
+                                in their flag.
+                                <button id="flag_color" style="display: block;">Go</button>
+                                <div class="response" id="flag_color_response"><ul><li>Armenia Republic of</li><li>Armenia Republic of</li><li>Bhutan Kingdom of</li><li>Sri Lanka Democratic Socialist Republic of</li><li>Ireland</li><li>Cote d'Ivoire Republic of</li><li>Sint Maarten (Netherlands)</li><li>Niger Republic of</li><li>Marshall Islands Republic of the</li><li>Anguilla</li><li>Zambia Republic of</li></ul></div>
+                        </li>
+                        
+                        <li>
+                                Find countries that are entirely landlocked by a single country.
+                                <button id="enclave" style="display: block;">Go</button>
+                                <div class="response" id="enclave_response"><ul><li>Holy See (Vatican City State)</li><li>Lesotho Kingdom of</li><li>San Marino Republic of</li></ul></div>
+                        </li>
+                        
+                        <li>
+                                Find capitals that are within <input type="text" value="10" id="within_degreees"> degrees of latitude and longitude of each other. 
+                                <br>
+                                Find the lat/long coordinates and the list of countries/capitals so that the number of capitals is maximized.
+                                <button id="capital_coordinates" style="display: block;">Go</button>
+                                <div class="response" id="capital_coordinates_response"><ul><li><dl><dt>Capital</dt><dd>Saint John's</dd><dt>Country</dt><dd>Antigua and Barbuda</dd><dt>Courdinates</dt><dd>17.07, -61.51</dd><dl></dl></dl></li><li><dl><dt>Capital</dt><dd>Roseau</dd><dt>Country</dt><dd>Dominica</dd><dt>Courdinates</dt><dd>15.18, -61.24</dd><dl></dl></dl></li><li><dl><dt>Capital</dt><dd>Plymouth</dd><dt>Country</dt><dd>Montserrat</dd><dt>Courdinates</dt><dd>16.42, -62.13</dd><dl></dl></dl></li><li><dl><dt>Capital</dt><dd>Oranjestad</dd><dt>Country</dt><dd>Aruba</dd><dt>Courdinates</dt><dd>12.31, -70.02</dd><dl></dl></dl></li><li><dl><dt>Capital</dt><dd>Philipsburg</dd><dt>Country</dt><dd>Sint Maarten</dd><dt>Courdinates</dt><dd>18.1, -63.2</dd><dl></dl></dl></li><li><dl><dt>Capital</dt><dd>San Juan</dd><dt>Country</dt><dd>Puerto Rico</dd><dt>Courdinates</dt><dd>18.28, -66.07</dd><dl></dl></dl></li><li><dl><dt>Capital</dt><dd>Gustavia</dd><dt>Country</dt><dd>Saint Barthelemy</dd><dt>Courdinates</dt><dd>17.53, -62.51</dd><dl></dl></dl></li><li><dl><dt>Capital</dt><dd>Gustavia</dd><dt>Country</dt><dd>Saint Barthelemy</dd><dt>Courdinates</dt><dd>17.53, -62.51</dd><dl></dl></dl></li><li><dl><dt>Capital</dt><dd>Gustavia</dd><dt>Country</dt><dd>Saint Barthelemy</dd><dt>Courdinates</dt><dd>17.53, -62.51</dd><dl></dl></dl></li><li><dl><dt>Capital</dt><dd>The Valley</dd><dt>Country</dt><dd>Anguilla</dd><dt>Courdinates</dt><dd>18.13, -63.03</dd><dl></dl></dl></li><li><dl><dt>Capital</dt><dd>Gustavia</dd><dt>Country</dt><dd>Saint Barthelemy</dd><dt>Courdinates</dt><dd>17.53, -62.51</dd><dl></dl></dl></li><li><dl><dt>Capital</dt><dd>Gustavia</dd><dt>Country</dt><dd>Saint Barthelemy</dd><dt>Courdinates</dt><dd>17.53, -62.51</dd><dl></dl></dl></li><li><dl><dt>Capital</dt><dd>Gustavia</dd><dt>Country</dt><dd>Saint Barthelemy</dd><dt>Courdinates</dt><dd>17.53, -62.51</dd><dl></dl></dl></li><li><dl><dt>Capital</dt><dd>Gustavia</dd><dt>Country</dt><dd>Saint Barthelemy</dd><dt>Courdinates</dt><dd>17.53, -62.51</dd><dl></dl></dl></li><li><dl><dt>Capital</dt><dd>Caracas</dd><dt>Country</dt><dd>Venezuela</dd><dt>Courdinates</dt><dd>10.29, -66.52</dd><dl></dl></dl></li></ul></div>
+                        </li>
+                        
+                </ol>
+                <script type="text/javascript">
+                        jQuery(function(){
+                                // natural hazards
+                                var hazard_button = jQuery('#hazard');
+                                hazard_button.click(function(){
+                                        hazard_button.hide();
+                                        var continent = jQuery('#continent1').val();
+                                        var natural_hazard = jQuery('#natural_hazard').val();
+                                        var hazard_response = jQuery('#hazard_response');
+                                        jQuery.ajax({ url : '/countries/?continent='+continent+'&amp;natural_hazard='+natural_hazard,
+                                                                  dataType : 'json',
+                                                                  success : function(countries){
+                                                                        hazard_response.removeClass('pending');
+                                                                        var response = '&lt;ul&gt;';
+                                                                        for(var i = 0; i &lt; countries.length; i++){
+                                                                                var country = countries[i];
+                                                                                response += '&lt;li&gt;' + country['country_name'] + '&lt;/li&gt;';
+                                                                        }
+                                                                        response += '&lt;/ul&gt;';
+                                                                        hazard_response.html(response);
+                                                                        hazard_button.show();
+                                                                  }
+                                                                });
+                                        hazard_response.addClass('pending');
+                                        hazard_response.html('pending...');
+                                });
+                                
+                                // political parties
+                                var political_parties = jQuery('#political_parties');
+                                political_parties.click(function(){
+                                        political_parties.hide();
+                                        var continent = jQuery('#continent2').val();
+                                        var political_parties_count = jQuery('#political_parties_count').val();
+                                        var political_parties_response = jQuery('#political_parties_response');
+                                        jQuery.ajax({ url : '/countries/?continent='+continent+'&amp;political_party_count_gt_n='+political_parties_count,
+                                                                  dataType : 'json',
+                                                                  success : function(countries){
+                                                                        political_parties_response.removeClass('pending');
+                                                                        var response = '&lt;ul&gt;';
+                                                                        for(var i = 0; i &lt; countries.length; i++){
+                                                                                var country = countries[i];
+                                                                                response += '&lt;li&gt;' + country['country_name'] + '&lt;/li&gt;';
+                                                                        }
+                                                                        response += '&lt;/ul&gt;';
+                                                                        political_parties_response.html(response);
+                                                                        political_parties.show();
+                                                                  }
+                                                                });
+                                        political_parties_response.addClass('pending');
+                                        political_parties_response.html('pending...');
+                                });
+                                
+                                // flag color
+                                var flag_color = jQuery('#flag_color');
+                                flag_color.click(function(){
+                                        flag_color.hide();
+                                        var continent = '';
+                                        var flag_contains_color = jQuery('#flag_contains_color').val();
+                                        var flag_color_response = jQuery('#flag_color_response');
+                                        jQuery.ajax({ url : '/countries/?continent=&amp;flag_contains_color='+flag_contains_color,
+                                                                  dataType : 'json',
+                                                                  success : function(countries){
+                                                                        flag_color_response.removeClass('pending');
+                                                                        var response = '&lt;ul&gt;';
+                                                                        for(var i = 0; i &lt; countries.length; i++){
+                                                                                var country = countries[i];
+                                                                                response += '&lt;li&gt;' + country['country_name'] + '&lt;/li&gt;';
+                                                                        }
+                                                                        response += '&lt;/ul&gt;';
+                                                                        flag_color_response.html(response);
+                                                                        flag_color.show();
+                                                                  }
+                                                                });
+                                        flag_color_response.addClass('pending');
+                                        flag_color_response.html('pending...');
+                                });
+                                
+                                // enclave
+                                var enclave = jQuery('#enclave');
+                                enclave.click(function(){
+                                        var enclave_response = jQuery('#enclave_response');
+                                        enclave.hide();
+                                        jQuery.ajax({ url : '/countries/?enclave=1',
+                                                          dataType : 'json',
+                                                          success : function(countries){
+                                                                enclave_response.removeClass('pending');
+                                                                var response = '&lt;ul&gt;';
+                                                                for(var i = 0; i &lt; countries.length; i++){
+                                                                        var country = countries[i];
+                                                                        response += '&lt;li&gt;' + country['country_name'] + '&lt;/li&gt;';
+                                                                }
+                                                                response += '&lt;/ul&gt;';
+                                                                enclave_response.html(response);
+                                                                enclave.show();
+                                                          }
+                                                        });
+                                        enclave_response.addClass('pending');
+                                        enclave_response.html('pending...');
+                                });
+                                
+                                // enclave
+                                var capital_coordinates = jQuery('#capital_coordinates');
+                                capital_coordinates.click(function(){
+                                        var capital_coordinates_response = jQuery('#capital_coordinates_response');
+                                        capital_coordinates.hide();
+                                        var within_degrees = jQuery("#within_degreees").val();
+                                        jQuery.ajax({ url : '/countries/?capital_coordinates='+within_degrees,
+                                                          dataType : 'json',
+                                                          success : function(capital_coords){
+                                                                capital_coordinates_response.removeClass('pending');
+                                                                var response = '&lt;ul&gt;';
+                                                                // { 'capital' : capital_name, 'country' : country_name, 'coordinates' : { 'latitude' : coords[0], 'longitude' : coords[1] } }
+                                                                for(var i = 0; i &lt; capital_coords.length; i++){
+                                                                        var capital_coord = capital_coords[i];
+                                                                        response += '&lt;li&gt;' 
+                                                                                                 + '&lt;dl&gt;'
+                                                                                                 +              '&lt;dt&gt;Capital&lt;/dt&gt;' 
+                                                                                                 +              '&lt;dd&gt;' + capital_coord['capital'] + '&lt;/dd&gt;'
+                                                                                                 +              '&lt;dt&gt;Country&lt;/dt&gt;' 
+                                                                                                 +              '&lt;dd&gt;' + capital_coord['country'] + '&lt;/dd&gt;'
+                                                                                                 +              '&lt;dt&gt;Courdinates&lt;/dt&gt;' 
+                                                                                                 +              '&lt;dd&gt;' + capital_coord['coordinates']['latitude'] + ', ' + capital_coord['coordinates']['longitude'] + '&lt;/dd&gt;'
+                                                                                                 + '&lt;dl&gt;'
+                                                                                         + '&lt;/li&gt;';
+                                                                }
+                                                                response += '&lt;/ul&gt;';
+                                                                capital_coordinates_response.html(response);
+                                                                capital_coordinates.show();
+                                                          }
+                                                        });
+                                                capital_coordinates_response.addClass('pending');
+                                                capital_coordinates_response.html('pending...');
+                                });
+                                
+                        });
+                </script>
+        
+
+</body></html>

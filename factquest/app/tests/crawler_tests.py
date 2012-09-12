@@ -4,7 +4,6 @@ import os
 sys.path.append(os.path.abspath('..'))
 from models.crawler import Crawler
 
-# TODO wrapper that gets $('.category').after($(".category_data"))[0].innerHTML
 class CrawlerTests(unittest.TestCase):
 	TestUrls = [ "http://www.google.com", "http://www.markvelez.com", "https://www.cia.gov/library/publications/the-world-factbook/geos/ag.html", "http://k2_7.asdf1234.net"]
 	def setUp(self):
