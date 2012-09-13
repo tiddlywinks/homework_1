@@ -1,19 +1,18 @@
 FactQuest 0.01
 ==============
-This a web.py project that provides answers to questions regarding 
-data provided by the CIA's World Factbook website 
-(https://www.cia.gov/library/publications/the-world-factbook/).
+This a web.py project that provides answers to questions regarding data provided by the CIA's World Factbook website 
+(https://www.cia.gov/library/publications/the-world-factbook/). It is implemented as two web services and a simple 
+web application (described below) written in Python.
 
 - The project consists of two MVC web applications:
    - /factquest - The main application; consists of a simple web interface (http://localhost:1235/query_ui/).*
 				  This also exposes a REST interface so that other types of clients can use the application.
-   - /geo       - a simple REST service that gets data regarding continents 
-                  and countries by cross-referencing a wikipedia article** and the CIA Factbook Appendix D.***
+   - /geo       - a simple REST service that gets data regarding continents** 
+                  and countries by cross-referencing a wikipedia article*** and the CIA Factbook Appendix D.****
 				  
-*    An example output is available in factquest/static/example_response.htm which illustrates the functionality
-     if you are unwilling to setup and run the web applications.
-**   http://en.wikipedia.org/wiki/List_of_sovereign_states_and_dependent_territories_by_continent_(data_file)
-***  https://www.cia.gov/library/publications/the-world-factbook/appendix/appendix-d.html
+*	An example output is available in factquest/static/example_response.htm which illustrates the functionality
+**	http://en.wikipedia.org/wiki/List_of_sovereign_states_and_dependent_territories_by_continent_(data_file)
+***	https://www.cia.gov/library/publications/the-world-factbook/appendix/appendix-d.html
 
 Questions FactQuest Answers
 ===========================
@@ -30,7 +29,7 @@ with the pages that satisfied the predicate.
 
 2. List countries in <continent> with more than <n> political parties.
 The approach is similar to that mentioned in 1. The predicate is more complex however. The composite pattern
-is used to divide the task in to stages. The first task is to extract the category data, then to
+is used to divide the task into stages. The first task is to extract the category data, then to
 count the number of political parties described in it (based on the number of semicolons in the section)
 and then to compare this to the number supplied in the query.
 
@@ -65,7 +64,7 @@ FactQuest depends on the following to run:
  web.py           - easy_install web.py
  Beautiful Soup 4 - easy_install bs4
  html5lib         - easy_install html5lib
- scipy			  - download from http://www.scipy.org/Download
+ scipy		  - download from http://www.scipy.org/Download
  Any javascript-enabled browser
  
 Testing
@@ -101,9 +100,9 @@ REQUEST
 RESPONSE 
 [
    {
-      "country_name":"Argentina Argentine Republic", // name
-      "code":"AR",									 // FIPS code which is heavily used by the World FactBook website
-      "continent":"SA"								 // continent code
+      "country_name":"Argentina Argentine Republic", 	// name
+      "code":"AR",					// FIPS code which is heavily used by the World FactBook website
+      "continent":"SA"					// continent code
    }, ...,
    {
       "country_name":"Venezuela Bolivarian Republic of",
